@@ -1,0 +1,289 @@
+// =============================================================================
+// MIXINS
+// Healthcare Staffing Intelligence Platform
+// =============================================================================
+
+@use 'colors'     as *;
+@use 'spacing'    as *;
+@use 'typography' as *;
+
+// --------------------------------------------------------------------------
+// Responsive breakpoints
+// --------------------------------------------------------------------------
+$breakpoints: (
+  'xs':  0px,
+  'sm':  576px,
+  'md':  768px,
+  'lg':  992px,
+  'xl':  1200px,
+  '2xl': 1400px,
+);
+
+/// Respond to a minimum-width breakpoint
+/// @example  @include respond-to('md') { ... }
+@mixin respond-to($bp) {
+  $value: map-get($breakpoints, $bp);
+  @if $value == null {
+    @warn "Unknown breakpoint: #{$bp}";
+  } @else if $value == 0 {
+    @content;
+  } @else {
+    @media (min-width: $value) { @content; }
+  }
+}
+
+/// Respond up to (but not including) a breakpoint — mobile-first max-width helper
+@mixin respond-below($bp) {
+  $value: map-get($breakpoints, $bp);
+  @if $value == null {
+    @warn "Unknown breakpoint: #{$bp}";
+  } @else {
+    @media (max-width: calc(#{$value} - 1px)) { @content; }
+  }
+}
+
+/// Between two breakpoints (inclusive min, exclusive max)
+@mixin respond-between($min-bp, $max-bp) {
+  $min: map-get($breakpoints, $min-bp);
+  $max: map-get($breakpoints, $max-bp);
+  @media (min-width: $min) and (max-width: calc(#{$max} - 1px)) { @content; }
+}
+
+// --------------------------------------------------------------------------
+// Flexbox helpers
+// --------------------------------------------------------------------------
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin flex-start {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+@mixin flex-column($gap: null) {
+  display: flex;
+  flex-direction: column;
+  @if $gap { gap: $gap; }
+}
+
+// --------------------------------------------------------------------------
+// Grid
+// --------------------------------------------------------------------------
+@mixin grid($columns: 12, $gap: $layout-gutter) {
+  display: grid;
+  grid-template-columns: repeat($columns, 1fr);
+  gap: $gap;
+}
+
+// --------------------------------------------------------------------------
+// Typography helpers
+// --------------------------------------------------------------------------
+@mixin text-truncate($lines: 1) {
+  @if $lines == 1 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  } @else {
+    display: -webkit-box;
+    -webkit-line-clamp: $lines;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+@mixin heading($size: 'h2') {
+  $sizes: (
+    'h1': ($font-size-4xl, $font-weight-bold,     $line-height-tight),
+    'h2': ($font-size-3xl, $font-weight-semibold, $line-height-tight),
+    'h3': ($font-size-2xl, $font-weight-semibold, $line-height-snug),
+    'h4': ($font-size-xl,  $font-weight-medium,   $line-height-snug),
+    'h5': ($font-size-lg,  $font-weight-medium,   $line-height-normal),
+    'h6': ($font-size-md,  $font-weight-medium,   $line-height-normal),
+  );
+  $props: map-get($sizes, $size);
+  font-size:   nth($props, 1);
+  font-weight: nth($props, 2);
+  line-height: nth($props, 3);
+  font-family: $font-family-heading;
+  color:       $color-text-primary;
+}
+
+// --------------------------------------------------------------------------
+// Elevation / shadow
+// --------------------------------------------------------------------------
+@mixin elevation($level: 1) {
+  @if      $level == 0 { box-shadow: none; }
+  @else if $level == 1 { box-shadow: 0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06); }
+  @else if $level == 2 { box-shadow: 0 4px 6px rgba(0,0,0,.07), 0 2px 4px rgba(0,0,0,.06); }
+  @else if $level == 3 { box-shadow: 0 10px 15px rgba(0,0,0,.07), 0 4px 6px rgba(0,0,0,.05); }
+  @else if $level == 4 { box-shadow: 0 20px 25px rgba(0,0,0,.07), 0 10px 10px rgba(0,0,0,.04); }
+  @else if $level == 5 { box-shadow: 0 25px 50px rgba(0,0,0,.12); }
+}
+
+// --------------------------------------------------------------------------
+// Border radius
+// --------------------------------------------------------------------------
+@mixin rounded($size: 'md') {
+  $radii: (
+    'none': 0,
+    'sm':   4px,
+    'md':   8px,
+    'lg':   12px,
+    'xl':   16px,
+    'full': 9999px,
+  );
+  border-radius: map-get($radii, $size);
+}
+
+// --------------------------------------------------------------------------
+// Focus ring (accessibility)
+// --------------------------------------------------------------------------
+@mixin focus-ring($color: $color-border-focus, $offset: 2px) {
+  outline: 2px solid $color;
+  outline-offset: $offset;
+}
+
+@mixin focus-visible-ring {
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+// --------------------------------------------------------------------------
+// Card
+// --------------------------------------------------------------------------
+@mixin card($padding: $card-padding, $elevation: 1) {
+  background:    $color-bg-card;
+  border:        1px solid $color-border-light;
+  border-radius: 12px;
+  padding:       $padding;
+  @include elevation($elevation);
+}
+
+// --------------------------------------------------------------------------
+// Button base
+// --------------------------------------------------------------------------
+@mixin button-base {
+  display:          inline-flex;
+  align-items:      center;
+  justify-content:  center;
+  gap:              $spacing-2;
+  border:           1px solid transparent;
+  border-radius:    8px;
+  cursor:           pointer;
+  font-family:      $font-family-base;
+  font-weight:      $font-weight-medium;
+  font-size:        $font-size-base;
+  line-height:      1;
+  text-decoration:  none;
+  transition:       background-color 150ms ease, color 150ms ease,
+                    border-color 150ms ease, box-shadow 150ms ease;
+  user-select:      none;
+  white-space:      nowrap;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor:  not-allowed;
+    pointer-events: none;
+  }
+
+  @include focus-visible-ring;
+}
+
+// --------------------------------------------------------------------------
+// Form input base
+// --------------------------------------------------------------------------
+@mixin input-base {
+  width:         100%;
+  background:    $color-bg-card;
+  border:        1px solid $color-border-medium;
+  border-radius: 6px;
+  color:         $color-text-primary;
+  font-family:   $font-family-base;
+  font-size:     $font-size-base;
+  line-height:   $line-height-normal;
+  padding:       $spacing-2 $spacing-3;
+  transition:    border-color 150ms ease, box-shadow 150ms ease;
+
+  &::placeholder { color: $color-text-disabled; }
+
+  &:hover:not(:disabled) { border-color: $color-border-dark; }
+
+  &:focus {
+    border-color: $color-border-focus;
+    box-shadow:   0 0 0 3px rgba($color-primary-500, 0.2);
+    outline:      none;
+  }
+
+  &:disabled {
+    background: $color-neutral-100;
+    color:      $color-text-disabled;
+    cursor:     not-allowed;
+  }
+}
+
+// --------------------------------------------------------------------------
+// Status badge
+// --------------------------------------------------------------------------
+@mixin status-badge($bg, $color, $border: null) {
+  display:       inline-flex;
+  align-items:   center;
+  gap:           $spacing-1;
+  background:    $bg;
+  color:         $color;
+  border:        1px solid if($border, $border, $bg);
+  border-radius: 9999px;
+  font-size:     $font-size-xs;
+  font-weight:   $font-weight-semibold;
+  letter-spacing: $letter-spacing-wide;
+  padding:       2px $spacing-2;
+  text-transform: uppercase;
+}
+
+// --------------------------------------------------------------------------
+// Scrollbar styling (webkit)
+// --------------------------------------------------------------------------
+@mixin custom-scrollbar($width: 6px, $track: $color-neutral-100, $thumb: $color-neutral-400) {
+  scrollbar-width: thin;
+  scrollbar-color: $thumb $track;
+
+  &::-webkit-scrollbar              { width: $width; height: $width; }
+  &::-webkit-scrollbar-track        { background: $track; border-radius: 9999px; }
+  &::-webkit-scrollbar-thumb        { background: $thumb; border-radius: 9999px; }
+  &::-webkit-scrollbar-thumb:hover  { background: darken($thumb, 10%); }
+}
+
+// --------------------------------------------------------------------------
+// Visually hidden (accessible)
+// --------------------------------------------------------------------------
+@mixin visually-hidden {
+  position:   absolute;
+  width:      1px;
+  height:     1px;
+  padding:    0;
+  margin:     -1px;
+  overflow:   hidden;
+  clip:       rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border:     0;
+}
+
+// --------------------------------------------------------------------------
+// Overlay / backdrop
+// --------------------------------------------------------------------------
+@mixin overlay($z: 100) {
+  position:   fixed;
+  inset:      0;
+  background: $color-bg-overlay;
+  z-index:    $z;
+}

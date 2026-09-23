@@ -1,0 +1,191 @@
+// =============================================================================
+// VARIABLES
+// Healthcare Staffing Intelligence Platform
+// Single source of truth — re-exports tokens from partials and adds
+// component/feature-level configuration variables.
+// =============================================================================
+
+@use 'colors'     as *;
+@use 'spacing'    as *;
+@use 'typography' as *;
+
+// --------------------------------------------------------------------------
+// Z-index scale
+// --------------------------------------------------------------------------
+$z-index-below:       -1;
+$z-index-base:         0;
+$z-index-raised:      10;
+$z-index-dropdown:   100;
+$z-index-sticky:     200;
+$z-index-overlay:    300;
+$z-index-modal:      400;
+$z-index-toast:      500;
+$z-index-tooltip:    600;
+
+// --------------------------------------------------------------------------
+// Border radius scale
+// --------------------------------------------------------------------------
+$radius-none:   0;
+$radius-sm:     4px;
+$radius-md:     8px;
+$radius-lg:     12px;
+$radius-xl:     16px;
+$radius-2xl:    24px;
+$radius-full:   9999px;
+
+// --------------------------------------------------------------------------
+// Transitions
+// --------------------------------------------------------------------------
+$transition-fast:    150ms ease;
+$transition-normal:  250ms ease;
+$transition-slow:    400ms ease;
+
+$transition-color:     color $transition-fast, background-color $transition-fast, border-color $transition-fast;
+$transition-shadow:    box-shadow $transition-fast;
+$transition-transform: transform $transition-normal;
+$transition-opacity:   opacity $transition-fast;
+$transition-all:       all $transition-normal;
+
+// --------------------------------------------------------------------------
+// Layout
+// --------------------------------------------------------------------------
+$container-max-width: 1280px;
+$container-sm:         640px;
+$container-md:         768px;
+$container-lg:        1024px;
+$container-xl:        1280px;
+
+$sidebar-width-collapsed:  64px;
+$sidebar-width-expanded:  240px;
+$header-height:            64px;
+$footer-height:            56px;
+
+// --------------------------------------------------------------------------
+// Component — Card
+// --------------------------------------------------------------------------
+$card-bg:             $color-bg-card;
+$card-border:         $color-border-light;
+$card-border-radius:  $radius-lg;
+$card-padding-sm:     $spacing-4;
+$card-padding-md:     $spacing-6;
+$card-padding-lg:     $spacing-8;
+
+// --------------------------------------------------------------------------
+// Component — Button
+// --------------------------------------------------------------------------
+$btn-border-radius:   $radius-md;
+$btn-font-weight:     $font-weight-medium;
+$btn-font-size:       $font-size-base;
+
+$btn-height-sm:       32px;
+$btn-height-md:       40px;
+$btn-height-lg:       48px;
+
+$btn-primary-bg:      $color-primary-500;
+$btn-primary-hover:   $color-primary-600;
+$btn-primary-text:    $color-text-inverse;
+
+$btn-secondary-bg:    transparent;
+$btn-secondary-border: $color-primary-500;
+$btn-secondary-text:  $color-primary-600;
+$btn-secondary-hover: $color-primary-50;
+
+$btn-danger-bg:       $color-error;
+$btn-danger-hover:    $color-error-dark;
+$btn-danger-text:     $color-text-inverse;
+
+// --------------------------------------------------------------------------
+// Component — Form / Input
+// --------------------------------------------------------------------------
+$input-height:          40px;
+$input-height-sm:       32px;
+$input-height-lg:       48px;
+$input-bg:              $color-bg-card;
+$input-border:          $color-border-medium;
+$input-border-focus:    $color-border-focus;
+$input-border-error:    $color-error;
+$input-border-radius:   $radius-sm;
+$input-padding-x:       $spacing-3;
+$input-padding-y:       $spacing-2;
+$input-placeholder:     $color-text-disabled;
+$input-disabled-bg:     $color-neutral-100;
+
+$label-font-size:       $font-size-sm;
+$label-font-weight:     $font-weight-medium;
+$label-color:           $color-text-secondary;
+$label-gap:             $spacing-1;
+
+// --------------------------------------------------------------------------
+// Component — Badge / Status
+// --------------------------------------------------------------------------
+$badge-border-radius: $radius-full;
+$badge-font-size:     $font-size-xs;
+$badge-font-weight:   $font-weight-semibold;
+
+// Staffing-specific status colors
+$status-available-bg:   $color-success-light;
+$status-available-text: $color-success-dark;
+$status-available-border: $color-success;
+
+$status-placed-bg:      $color-info-light;
+$status-placed-text:    $color-info-dark;
+$status-placed-border:  $color-info;
+
+$status-unavailable-bg:   $color-neutral-100;
+$status-unavailable-text: $color-neutral-600;
+$status-unavailable-border: $color-neutral-400;
+
+$status-onboarding-bg:   $color-warning-light;
+$status-onboarding-text: $color-warning-dark;
+$status-onboarding-border: $color-warning;
+
+$status-urgent-bg:   $color-error-light;
+$status-urgent-text: $color-error-dark;
+$status-urgent-border: $color-error;
+
+// --------------------------------------------------------------------------
+// Component — Table
+// --------------------------------------------------------------------------
+$table-header-bg:         $color-neutral-50;
+$table-header-text:       $color-text-secondary;
+$table-header-font-size:  $font-size-sm;
+$table-header-font-weight: $font-weight-semibold;
+$table-row-border:        $color-border-light;
+$table-row-hover-bg:      $color-primary-50;
+$table-cell-padding-x:    $spacing-4;
+$table-cell-padding-y:    $spacing-3;
+
+// --------------------------------------------------------------------------
+// Component — Modal / Dialog
+// --------------------------------------------------------------------------
+$modal-bg:            $color-bg-card;
+$modal-border-radius: $radius-xl;
+$modal-padding:       $spacing-8;
+$modal-max-width-sm:  480px;
+$modal-max-width-md:  640px;
+$modal-max-width-lg:  800px;
+
+// --------------------------------------------------------------------------
+// Component — Toast / Notification
+// --------------------------------------------------------------------------
+$toast-border-radius: $radius-md;
+$toast-padding:       $spacing-4;
+$toast-min-width:     320px;
+$toast-max-width:     480px;
+
+// --------------------------------------------------------------------------
+// Component — Navigation
+// --------------------------------------------------------------------------
+$nav-item-active-bg:     $color-primary-50;
+$nav-item-active-text:   $color-primary-700;
+$nav-item-hover-bg:      $color-neutral-100;
+$nav-item-text:          $color-text-secondary;
+$nav-item-border-radius: $radius-md;
+
+// --------------------------------------------------------------------------
+// Staffing domain — shift / schedule
+// --------------------------------------------------------------------------
+$shift-day-color:     $color-primary-500;
+$shift-night-color:   $color-secondary-500;
+$shift-on-call-color: $color-warning;
+$shift-overtime-color: $color-error;
